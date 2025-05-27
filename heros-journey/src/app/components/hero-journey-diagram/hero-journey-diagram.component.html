@@ -7,7 +7,8 @@
     </p>
   </div>
 
-  <div class="diagram-wrapper">
+  <div class="content-wrapper">
+    <div class="diagram-section">
     <svg [attr.viewBox]="'0 0 ' + svgWidth + ' ' + svgHeight" 
          class="hero-journey-svg"
          role="img"
@@ -115,9 +116,7 @@
           <text [attr.x]="getLabelX(stage)" 
                 [attr.y]="getLabelY(stage)" 
                 [attr.text-anchor]="getTextAnchor(stage)"
-                class="stage-label"
-                [attr.transform]="stage.angle > 90 && stage.angle < 270 ? 
-                  'rotate(180 ' + getLabelX(stage) + ' ' + getLabelY(stage) + ')' : ''">
+                class="stage-label">
             {{stage.name}}
           </text>
 
@@ -147,7 +146,7 @@
       </g>
 
       <!-- Legend -->
-      <g class="legend" transform="translate(20, 680)">
+      <g class="legend" transform="translate(20, 720)">
         <text x="0" y="0" class="legend-title">Legend:</text>
         
         <circle cx="20" cy="20" r="10" fill="#70B7E2"/>
@@ -164,28 +163,85 @@
       </g>
     </svg>
 
-    <!-- Instruction hint -->
-    <p class="instruction-hint" *ngIf="!selectedStage">
-      <strong>Tip:</strong> Click on each stage of the circle to learn about that part of the Hero's Journey.
-    </p>
-  </div>
+      <!-- Instruction hint -->
+      <p class="instruction-hint" *ngIf="!selectedStage">
+        <strong>Tip:</strong> Click on each stage of the circle to learn about that part of the Hero's Journey.
+      </p>
+    </div>
 
-  <!-- Stage groups overview -->
-  <div class="stage-groups">
-    <div *ngFor="let group of getStageGroups()" class="stage-group-card">
-      <h3>{{group.name}}</h3>
-      <p>{{group.description}}</p>
-      <p class="stages-list">Stages {{group.stages[0]}}-{{group.stages[group.stages.length - 1]}}</p>
+    <!-- Side panel for stage details -->
+    <div class="detail-panel" [class.active]="selectedStage">
+      <div class="panel-header" *ngIf="!selectedStage">
+        <h2>Select a Stage</h2>
+        <p>Click on any numbered stage in the diagram to explore its meaning in the Hero's Journey.</p>
+      </div>
+
+      <div class="stage-detail-content" *ngIf="selectedStage">
+        <div class="stage-header">
+          <div class="stage-number-badge" [class.known-world]="selectedStage.worldType === 'known'" 
+               [class.unknown-world]="selectedStage.worldType === 'unknown'">
+            {{selectedStage.id}}
+          </div>
+          <h2>{{selectedStage.name}}</h2>
+        </div>
+
+        <div class="stage-metadata">
+          <span class="world-type" [class.known]="selectedStage.worldType === 'known'" 
+                [class.unknown]="selectedStage.worldType === 'unknown'">
+            {{selectedStage.worldType === 'known' ? 'Known World' : 'Unknown World'}}
+          </span>
+          <span *ngIf="selectedStage.isThreshold" class="special-marker threshold">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 0l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z"/>
+            </svg>
+            Threshold
+          </span>
+          <span *ngIf="selectedStage.isAbyss" class="special-marker abyss">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <circle cx="8" cy="8" r="8"/>
+            </svg>
+            Central Crisis
+          </span>
+          <span *ngIf="selectedStage.isReturnPath" class="special-marker return">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M1 8h10m-5-5l5 5-5 5"/>
+            </svg>
+            Return Journey
+          </span>
+        </div>
+
+        <div class="stage-description">
+          <p>{{selectedStage.description}}</p>
+        </div>
+
+        <div class="navigation-controls">
+          <button class="nav-button prev" (click)="navigateStage('prev')" 
+                  [attr.aria-label]="'Previous stage'">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M12 15l-5-5 5-5"/>
+            </svg>
+            Previous
+          </button>
+          
+          <button class="nav-button next" (click)="navigateStage('next')" 
+                  [attr.aria-label]="'Next stage'">
+            Next
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M8 5l5 5-5 5"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Stage groups overview -->
+      <div class="stage-groups">
+        <h3>Journey Phases</h3>
+        <div *ngFor="let group of getStageGroups()" class="stage-group-card">
+          <h4>{{group.name}}</h4>
+          <p>{{group.description}}</p>
+          <p class="stages-list">Stages {{group.stages[0]}}-{{group.stages[group.stages.length - 1]}}</p>
+        </div>
+      </div>
     </div>
   </div>
-
-  <!-- Stage detail modal -->
-  <app-stage-detail 
-    *ngIf="selectedStage"
-    [stage]="selectedStage"
-    [stageNumber]="currentStageIndex + 1"
-    [totalStages]="stages.length"
-    (close)="onCloseDetail()"
-    (navigate)="navigateStage($event)">
-  </app-stage-detail>
 </div>

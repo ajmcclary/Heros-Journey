@@ -1,42 +1,235 @@
 @import '../../../styles/variables';
 
 .hero-journey-container {
-  min-height: 100vh;
-  padding: $spacing-lg;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
   background-color: $main-light;
+  overflow: hidden;
 }
 
 .hero-journey-header {
   text-align: center;
-  margin-bottom: $spacing-xl;
+  padding: $spacing-lg $spacing-lg 0;
+  flex-shrink: 0;
 
   h1 {
-    margin-bottom: $spacing-md;
+    margin-bottom: $spacing-sm;
   }
 
   .intro {
     max-width: 800px;
-    margin: 0 auto;
-    font-size: $font-size-large;
-    line-height: 1.6;
+    margin: 0 auto $spacing-md;
+    font-size: $font-size-base;
+    line-height: 1.5;
     color: $main-dark;
   }
 }
 
-.diagram-wrapper {
-  max-width: 1000px;
-  margin: 0 auto $spacing-xl;
-  position: relative;
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  padding: 0 $spacing-lg $spacing-lg;
+  gap: $spacing-lg;
+}
+
+.diagram-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
 }
 
 .hero-journey-svg {
   width: 100%;
   height: auto;
+  max-width: 800px;
   display: block;
-  margin: 0 auto;
   background: white;
   border-radius: $border-radius-lg;
   box-shadow: $shadow-lg;
+}
+
+// Detail Panel
+.detail-panel {
+  width: 400px;
+  background: white;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-lg;
+  padding: $spacing-xl;
+  overflow-y: auto;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  
+  &:not(.active) {
+    opacity: 0.8;
+  }
+
+  .panel-header {
+    text-align: center;
+    color: $main-muted;
+    
+    h2 {
+      color: $main-dark;
+      margin-bottom: $spacing-md;
+    }
+  }
+}
+
+.stage-detail-content {
+  .stage-header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+    margin-bottom: $spacing-lg;
+  }
+
+  .stage-number-badge {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    flex-shrink: 0;
+
+    &.known-world {
+      background-color: $known-world-color;
+    }
+
+    &.unknown-world {
+      background-color: $unknown-world-color;
+    }
+  }
+
+  h2 {
+    margin: 0;
+    color: $main-dark;
+    flex: 1;
+  }
+
+  .stage-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-lg;
+  }
+
+  .world-type {
+    display: inline-flex;
+    align-items: center;
+    padding: $spacing-xs $spacing-md;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-small;
+    font-weight: 500;
+
+    &.known {
+      background-color: rgba($known-world-color, 0.2);
+      color: darken($known-world-color, 20%);
+    }
+
+    &.unknown {
+      background-color: rgba($unknown-world-color, 0.2);
+      color: darken($unknown-world-color, 20%);
+    }
+  }
+
+  .special-marker {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: $spacing-xs $spacing-md;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-small;
+    font-weight: 500;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    &.threshold {
+      background-color: rgba($threshold-color, 0.2);
+      color: darken($threshold-color, 20%);
+    }
+
+    &.abyss {
+      background-color: rgba($abyss-color, 0.2);
+      color: darken($abyss-color, 10%);
+    }
+
+    &.return {
+      background-color: rgba($return-path-color, 0.2);
+      color: darken($return-path-color, 20%);
+    }
+  }
+
+  .stage-description {
+    margin-bottom: $spacing-xl;
+
+    p {
+      font-size: $font-size-large;
+      line-height: 1.8;
+      color: $main-dark;
+      margin: 0;
+    }
+  }
+}
+
+.navigation-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-lg;
+  padding-top: $spacing-lg;
+  border-top: 1px solid rgba($main-muted, 0.2);
+  margin-bottom: $spacing-xl;
+}
+
+.nav-button {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-lg;
+  background-color: $main-primary;
+  color: white;
+  border: none;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    background-color: $shades-primary-1;
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+
+  &:focus {
+    outline: 2px solid $main-primary;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.stage-counter {
+  font-size: $font-size-small;
+  color: $main-muted;
+  font-weight: 500;
 }
 
 // SVG styling
@@ -70,7 +263,8 @@
     }
 
     .stage-label {
-      font-weight: bold;
+      font-weight: 600;
+      fill: $shades-primary-1;
     }
   }
 
@@ -106,10 +300,11 @@
 }
 
 .stage-label {
-  font-size: 14px;
+  font-size: 13px;
   fill: $main-dark;
   transition: all 0.3s ease;
   pointer-events: none;
+  font-weight: 500;
 }
 
 .legend {
@@ -127,7 +322,7 @@
 
 .instruction-hint {
   text-align: center;
-  margin-top: $spacing-lg;
+  margin-top: $spacing-md;
   font-size: $font-size-small;
   color: $main-muted;
   
@@ -136,63 +331,86 @@
   }
 }
 
-// Stage groups cards
+// Stage groups in side panel
 .stage-groups {
-  display: flex;
-  gap: $spacing-lg;
-  max-width: 1000px;
-  margin: 0 auto $spacing-xl;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.stage-group-card {
-  flex: 1;
-  min-width: 250px;
-  background: white;
-  padding: $spacing-lg;
-  border-radius: $border-radius-md;
-  box-shadow: $shadow-md;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: $shadow-lg;
-  }
+  margin-top: auto;
+  padding-top: $spacing-lg;
+  border-top: 1px solid rgba($main-muted, 0.2);
 
   h3 {
-    margin-bottom: $spacing-sm;
-    color: $main-primary;
+    font-size: $font-size-large;
+    margin-bottom: $spacing-md;
+    color: $main-dark;
   }
 
-  p {
+  .stage-group-card {
+    background: rgba($main-light, 0.5);
+    padding: $spacing-md;
+    border-radius: $border-radius-md;
     margin-bottom: $spacing-sm;
-  }
 
-  .stages-list {
-    font-size: $font-size-small;
-    color: $main-muted;
-    font-weight: bold;
+    h4 {
+      margin: 0 0 $spacing-xs;
+      color: $main-primary;
+      font-size: $font-size-base;
+    }
+
+    p {
+      margin: 0 0 $spacing-xs;
+      font-size: $font-size-small;
+    }
+
+    .stages-list {
+      font-size: $font-size-small;
+      color: $main-muted;
+      font-weight: bold;
+      margin: 0;
+    }
   }
 }
 
 // Responsive design
-@media (max-width: $breakpoint-tablet) {
-  .hero-journey-container {
-    padding: $spacing-md;
-  }
-
-  .diagram-wrapper {
-    overflow-x: auto;
-  }
-
-  .stage-groups {
+@media (max-width: $breakpoint-desktop) {
+  .content-wrapper {
     flex-direction: column;
   }
 
-  .stage-group-card {
-    min-width: auto;
+  .detail-panel {
+    width: 100%;
+    max-height: 300px;
+  }
+
+  .diagram-section {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .hero-journey-header {
+    padding: $spacing-md $spacing-md 0;
+
+    .intro {
+      font-size: $font-size-small;
+    }
+  }
+
+  .content-wrapper {
+    padding: 0 $spacing-md $spacing-md;
+    gap: $spacing-md;
+  }
+
+  .detail-panel {
+    padding: $spacing-lg;
+  }
+
+  .stage-groups {
+    display: none;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .hero-journey-svg {
+    min-width: 350px;
   }
 
   .world-label {
@@ -201,15 +419,5 @@
 
   .stage-label {
     font-size: 12px;
-  }
-}
-
-@media (max-width: $breakpoint-mobile) {
-  .hero-journey-svg {
-    min-width: 600px;
-  }
-
-  .instruction-hint {
-    padding: 0 $spacing-md;
   }
 }

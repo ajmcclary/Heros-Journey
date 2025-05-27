@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeroJourneyService } from '../../services/hero-journey.service';
 import { HeroStage } from '../../models/hero-stage';
-import { StageDetailComponent } from '../stage-detail/stage-detail.component';
 
 @Component({
   selector: 'app-hero-journey-diagram',
   standalone: true,
-  imports: [CommonModule, StageDetailComponent],
+  imports: [CommonModule],
   templateUrl: './hero-journey-diagram.component.html',
   styleUrl: './hero-journey-diagram.component.scss'
 })
@@ -18,12 +17,12 @@ export class HeroJourneyDiagramComponent implements OnInit {
   
   // SVG dimensions
   svgWidth = 800;
-  svgHeight = 800;
+  svgHeight = 850;
   centerX = 400;
   centerY = 400;
-  outerRadius = 350;
-  innerRadius = 280;
-  abyssRadius = 120;
+  outerRadius = 320;
+  innerRadius = 260;
+  abyssRadius = 100;
 
   constructor(private heroJourneyService: HeroJourneyService) {}
 
@@ -62,21 +61,18 @@ export class HeroJourneyDiagramComponent implements OnInit {
 
   getLabelX(stage: HeroStage): number {
     const angleRad = (stage.angle - 90) * Math.PI / 180;
-    return this.centerX + Math.cos(angleRad) * (this.outerRadius - 20);
+    const labelDistance = this.innerRadius + 45;
+    return this.centerX + Math.cos(angleRad) * labelDistance;
   }
 
   getLabelY(stage: HeroStage): number {
     const angleRad = (stage.angle - 90) * Math.PI / 180;
-    return this.centerY + Math.sin(angleRad) * (this.outerRadius - 20);
+    const labelDistance = this.innerRadius + 45;
+    return this.centerY + Math.sin(angleRad) * labelDistance;
   }
 
   getTextAnchor(stage: HeroStage): string {
-    if (stage.angle > 90 && stage.angle < 270) {
-      return 'end';
-    } else if (stage.angle === 90 || stage.angle === 270) {
-      return 'middle';
-    }
-    return 'start';
+    return 'middle';
   }
 
   getPathData(): string {
