@@ -9,20 +9,26 @@
 }
 
 .hero-journey-header {
-  text-align: center;
-  padding: $spacing-lg $spacing-lg 0;
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-lg;
+  padding: $spacing-md;
   flex-shrink: 0;
 
   h1 {
-    margin-bottom: $spacing-sm;
+    margin: 0;
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-size: 1.5rem;
   }
 
   .intro {
-    max-width: 800px;
-    margin: 0 auto $spacing-md;
+    flex: 1;
+    margin: 0;
     font-size: $font-size-base;
     line-height: 1.5;
     color: $main-dark;
+    text-align: left;
   }
 }
 
@@ -30,8 +36,8 @@
   flex: 1;
   display: flex;
   overflow: hidden;
-  padding: 0 $spacing-lg $spacing-lg;
-  gap: $spacing-lg;
+  padding: 0;
+  gap: 0;
 }
 
 .diagram-section {
@@ -46,22 +52,22 @@
 .hero-journey-svg {
   width: 100%;
   height: auto;
-  max-width: 800px;
   display: block;
   background: white;
-  border-radius: $border-radius-lg;
-  box-shadow: $shadow-lg;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 // Detail Panel
 .detail-panel {
   width: 400px;
   background: white;
-  border-radius: $border-radius-lg;
-  box-shadow: $shadow-lg;
+  border-radius: 0;
+  box-shadow: none;
   padding: $spacing-xl;
   overflow-y: auto;
   transition: transform 0.3s ease, opacity 0.3s ease;
+  border-left: 1px solid rgba($main-muted, 0.2);
   
   &:not(.active) {
     opacity: 0.8;
@@ -129,15 +135,13 @@
     font-weight: 500;
 
     &.known {
-      background-color: rgba(#E8F2FF, 0.9);
-      color: #2B5CE6;
-      border: 1px solid rgba(#2B5CE6, 0.2);
+      background-color: #7788AA;
+      color: white;
     }
 
     &.unknown {
-      background-color: rgba(#E8F5E9, 0.9);
-      color: #2E7D32;
-      border: 1px solid rgba(#2E7D32, 0.2);
+      background-color: #7788AA;
+      color: white;
     }
   }
 
@@ -308,7 +312,7 @@
 
 // SVG styling
 .world-label {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   fill: #7788AA;
   text-transform: uppercase;
@@ -316,7 +320,7 @@
 }
 
 .phase-label {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   fill: #5577AA;
   text-transform: uppercase;
@@ -395,12 +399,12 @@
 }
 
 .stage-number {
-  font-size: 14px;
+  font-size: 16px;
   pointer-events: none;
 }
 
 .stage-label {
-  font-size: 12px;
+  font-size: 14px;
   fill: $main-dark;
   transition: all 0.3s ease;
   pointer-events: none;
@@ -417,13 +421,13 @@
 
 .legend {
   .legend-title {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     fill: $main-dark;
   }
 
   .legend-text {
-    font-size: 12px;
+    font-size: 14px;
     fill: $main-muted;
   }
 }
@@ -455,6 +459,10 @@
 
 // Responsive design
 @media (max-width: $breakpoint-desktop) {
+  .hero-journey-header {
+    padding: $spacing-md;
+  }
+  
   .content-wrapper {
     flex-direction: column;
   }
@@ -471,7 +479,13 @@
 
 @media (max-width: $breakpoint-tablet) {
   .hero-journey-header {
-    padding: $spacing-md $spacing-md 0;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-md;
+
+    h1 {
+      font-size: 1.75rem;
+    }
 
     .intro {
       font-size: $font-size-small;
@@ -479,20 +493,29 @@
   }
 
   .content-wrapper {
-    padding: 0 $spacing-md $spacing-md;
-    gap: $spacing-md;
+    padding: 0;
+    gap: 0;
   }
 
   .detail-panel {
     padding: $spacing-lg;
   }
-
-  .stage-groups {
-    display: none;
-  }
 }
 
 @media (max-width: $breakpoint-mobile) {
+  .hero-journey-header {
+    padding: $spacing-sm;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    .intro {
+      font-size: $font-size-small;
+      line-height: 1.4;
+    }
+  }
+
   .hero-journey-svg {
     min-width: 350px;
   }
@@ -503,5 +526,19 @@
 
   .stage-label {
     font-size: 12px;
+  }
+  
+  .detail-panel {
+    padding: $spacing-md;
+    
+    .nav-button {
+      padding: $spacing-xs $spacing-sm;
+      font-size: $font-size-small;
+      
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
   }
 }

@@ -168,7 +168,7 @@ export class HeroJourneyDiagramComponent implements OnInit {
   getStageTopics(stageId: number): string[] {
     const topicsMap: { [key: number]: string[] } = {
       1: [
-        'Pain Point / Problem — Concise phrase summarizing the core issue faced by BLA Claims Examiners.',
+        'Pain Point / Problem — Concise phrase summarizing the core issue faced by Examiners.',
         'Experience — How examiners encounter or feel the pain point in day-to-day work (observable symptoms).',
         'Frequency — How often the problem surfaces (e.g., daily, weekly, per claim).',
         'Duration — Typical length of each occurrence or the period the issue persists (momentary vs. chronic).',
@@ -187,7 +187,7 @@ export class HeroJourneyDiagramComponent implements OnInit {
       ],
       4: [
         'Past fixes — Temporary work-arounds or prior attempts to mitigate the issue.',
-        'Why them — Explanation of why this pain point affects BLA but not organizations with more modern tools or processes.'
+        'Why them — Explanation of why this pain point affects them but not organizations with more modern tools or processes.'
       ],
       5: [
         'Ignored — Aspects or solutions stakeholders avoid confronting because they\'re stressful, costly, or complex.',
