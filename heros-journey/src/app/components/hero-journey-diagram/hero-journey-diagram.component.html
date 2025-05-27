@@ -38,16 +38,6 @@
               opacity="0.15"/>
       </g>
 
-      <!-- Phase Labels -->
-      <text x="500" y="250" class="phase-label" text-anchor="middle">
-        DEPARTURE
-      </text>
-      <text x="200" y="400" class="phase-label" text-anchor="middle">
-        INITIATION
-      </text>
-      <text x="500" y="550" class="phase-label" text-anchor="middle">
-        RETURN
-      </text>
 
       <!-- Central Abyss/Ordeal -->
       <g class="abyss-center">
@@ -112,6 +102,30 @@
         </marker>
       </defs>
 
+      <!-- Special stage connections (behind circles) -->
+      <g class="stage-connections">
+        <!-- Threshold line for Stage 5 -->
+        <line *ngIf="stages[4]" 
+              [attr.x1]="centerX" 
+              [attr.y1]="centerY" 
+              [attr.x2]="getStageX(stages[4])" 
+              [attr.y2]="getStageY(stages[4])"
+              stroke="#FF9A15"
+              stroke-width="4"
+              opacity="0.8"/>
+        
+        <!-- Abyss line for Stage 8 -->
+        <line *ngIf="stages[7]" 
+              [attr.x1]="centerX" 
+              [attr.y1]="centerY" 
+              [attr.x2]="getStageX(stages[7])" 
+              [attr.y2]="getStageY(stages[7])"
+              stroke="#D83506"
+              stroke-width="2"
+              stroke-dasharray="3,3"
+              opacity="0.5"/>
+      </g>
+
       <!-- Stage segments and interactivity -->
       <g class="stages">
         <g *ngFor="let stage of stages" 
@@ -152,29 +166,6 @@
                 class="stage-label">
             {{stage.name}}
           </text>
-
-          <!-- Threshold marker -->
-          <g *ngIf="stage.isThreshold">
-            <line [attr.x1]="centerX" 
-                  [attr.y1]="centerY" 
-                  [attr.x2]="getStageX(stage)" 
-                  [attr.y2]="getStageY(stage)"
-                  stroke="#FF9A15"
-                  stroke-width="4"
-                  opacity="0.8"/>
-          </g>
-
-          <!-- Abyss connection -->
-          <g *ngIf="stage.isAbyss">
-            <line [attr.x1]="centerX" 
-                  [attr.y1]="centerY" 
-                  [attr.x2]="getStageX(stage)" 
-                  [attr.y2]="getStageY(stage)"
-                  stroke="#D83506"
-                  stroke-width="2"
-                  stroke-dasharray="3,3"
-                  opacity="0.5"/>
-          </g>
         </g>
       </g>
 
@@ -213,6 +204,26 @@
       </div>
 
       <div class="stage-detail-content" *ngIf="selectedStage">
+        <div class="navigation-controls">
+          <button class="nav-button prev" (click)="navigateStage('prev')" 
+                  [attr.aria-label]="'Previous stage'"
+                  [disabled]="currentStageIndex === 0">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M12 15l-5-5 5-5"/>
+            </svg>
+            Previous
+          </button>
+          
+          <button class="nav-button next" (click)="navigateStage('next')" 
+                  [attr.aria-label]="'Next stage'"
+                  [disabled]="currentStageIndex === stages.length - 1">
+            Next
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M8 5l5 5-5 5"/>
+            </svg>
+          </button>
+        </div>
+        
         <div class="stage-header">
           <div class="stage-number-badge" [class.known-world]="selectedStage.worldType === 'known'" 
                [class.unknown-world]="selectedStage.worldType === 'unknown'">
@@ -248,36 +259,6 @@
 
         <div class="stage-description">
           <p>{{selectedStage.description}}</p>
-        </div>
-
-        <div class="navigation-controls">
-          <button class="nav-button prev" (click)="navigateStage('prev')" 
-                  [attr.aria-label]="'Previous stage'"
-                  [disabled]="currentStageIndex === 0">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M12 15l-5-5 5-5"/>
-            </svg>
-            Previous
-          </button>
-          
-          <button class="nav-button next" (click)="navigateStage('next')" 
-                  [attr.aria-label]="'Next stage'"
-                  [disabled]="currentStageIndex === stages.length - 1">
-            Next
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M8 5l5 5-5 5"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Stage groups overview -->
-      <div class="stage-groups">
-        <h3>Journey Phases</h3>
-        <div *ngFor="let group of getStageGroups()" class="stage-group-card">
-          <h4>{{group.name}}</h4>
-          <p>{{group.description}}</p>
-          <p class="stages-list">Stages {{group.stages[0]}}-{{group.stages[group.stages.length - 1]}}</p>
         </div>
       </div>
     </div>

@@ -185,10 +185,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: $spacing-lg;
-  padding-top: $spacing-lg;
-  border-top: 1px solid rgba($main-muted, 0.2);
-  margin-bottom: $spacing-xl;
+  gap: $spacing-md;
+  padding-bottom: $spacing-lg;
+  margin-bottom: $spacing-lg;
+  border-bottom: 1px solid rgba($main-muted, 0.2);
 }
 
 .nav-button {
@@ -277,8 +277,7 @@
 
   &:hover {
     .stage-circle {
-      transform-origin: center;
-      filter: brightness(1.1);
+      filter: brightness(1.2);
     }
 
     .stage-label {
@@ -303,19 +302,33 @@
 
   &.selected {
     .stage-circle {
-      transform-origin: center;
-      filter: brightness(1.2) drop-shadow(0 0 12px rgba($main-primary, 0.8));
+      stroke-width: 6 !important;
+      stroke: $main-primary !important;
+      filter: drop-shadow(0 0 8px rgba($main-primary, 0.4));
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .stage-number {
+      font-size: 16px;
     }
 
     .stage-label {
       font-weight: bold;
       fill: $main-primary;
+      font-size: 14px;
+    }
+  }
+
+  &:active {
+    .stage-circle {
+      filter: brightness(0.9);
     }
   }
 }
 
 .stage-circle {
-  transition: all 0.3s ease;
+  transition: fill 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
 }
 
 .stage-number {
@@ -324,11 +337,14 @@
 }
 
 .stage-label {
-  font-size: 13px;
+  font-size: 12px;
   fill: $main-dark;
   transition: all 0.3s ease;
   pointer-events: none;
   font-weight: 500;
+  
+  // Add subtle text shadow for better readability
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
 }
 
 .progress-path {
@@ -360,41 +376,17 @@
   }
 }
 
-// Stage groups in side panel
-.stage-groups {
-  margin-top: auto;
-  padding-top: $spacing-lg;
-  border-top: 1px solid rgba($main-muted, 0.2);
 
-  h3 {
-    font-size: $font-size-large;
-    margin-bottom: $spacing-md;
-    color: $main-dark;
+// Animation keyframes
+@keyframes pulse {
+  0% {
+    stroke-width: 6px;
   }
-
-  .stage-group-card {
-    background: rgba($main-light, 0.5);
-    padding: $spacing-md;
-    border-radius: $border-radius-md;
-    margin-bottom: $spacing-sm;
-
-    h4 {
-      margin: 0 0 $spacing-xs;
-      color: $main-primary;
-      font-size: $font-size-base;
-    }
-
-    p {
-      margin: 0 0 $spacing-xs;
-      font-size: $font-size-small;
-    }
-
-    .stages-list {
-      font-size: $font-size-small;
-      color: $main-muted;
-      font-weight: bold;
-      margin: 0;
-    }
+  50% {
+    stroke-width: 8px;
+  }
+  100% {
+    stroke-width: 6px;
   }
 }
 

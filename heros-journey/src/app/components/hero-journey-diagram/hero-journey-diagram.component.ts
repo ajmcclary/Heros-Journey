@@ -62,18 +62,43 @@ export class HeroJourneyDiagramComponent implements OnInit {
 
   getLabelX(stage: HeroStage): number {
     const angleRad = (stage.angle - 90) * Math.PI / 180;
-    const labelDistance = this.innerRadius + 45;
+    const labelDistance = this.getLabelDistance(stage);
     return this.centerX + Math.cos(angleRad) * labelDistance;
   }
 
   getLabelY(stage: HeroStage): number {
     const angleRad = (stage.angle - 90) * Math.PI / 180;
-    const labelDistance = this.innerRadius + 45;
-    return this.centerY + Math.sin(angleRad) * labelDistance;
+    const labelDistance = this.getLabelDistance(stage);
+    let y = this.centerY + Math.sin(angleRad) * labelDistance;
+    
+    // Add vertical offset for specific stages to prevent overlap
+    if (stage.id === 1 || stage.id === 12) {
+      y -= 5; // Move stages 1 and 12 slightly up
+    } else if (stage.id === 2 || stage.id === 11) {
+      y += 5; // Move stages 2 and 11 slightly down
+    }
+    
+    return y;
   }
 
   getTextAnchor(stage: HeroStage): string {
-    return 'middle';
+    // Adjust text anchor based on angle to prevent overlap
+    if (stage.angle > 45 && stage.angle < 135) {
+      return 'start'; // Right side
+    } else if (stage.angle > 225 && stage.angle < 315) {
+      return 'end'; // Left side
+    }
+    return 'middle'; // Top and bottom
+  }
+
+  private getLabelDistance(stage: HeroStage): number {
+    // Increase distance for stages at the top where they're closer together
+    if ((stage.angle >= 0 && stage.angle <= 30) || (stage.angle >= 330 && stage.angle <= 360)) {
+      return this.innerRadius + 70; // Much more space at very top
+    } else if ((stage.angle > 30 && stage.angle <= 60) || (stage.angle >= 300 && stage.angle < 330)) {
+      return this.innerRadius + 60; // More space near top
+    }
+    return this.innerRadius + 50; // Standard spacing elsewhere
   }
 
   getPathData(): string {
