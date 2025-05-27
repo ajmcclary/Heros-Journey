@@ -155,13 +155,14 @@
 
           <!-- Threshold marker -->
           <g *ngIf="stage.isThreshold">
-            <line [attr.x1]="getStageX(stage) - 30" 
-                  [attr.y1]="getStageY(stage)" 
-                  [attr.x2]="getStageX(stage) + 30" 
+            <line [attr.x1]="centerX" 
+                  [attr.y1]="centerY" 
+                  [attr.x2]="getStageX(stage)" 
                   [attr.y2]="getStageY(stage)"
                   stroke="#FF9A15"
-                  stroke-width="4"
-                  class="threshold-line"/>
+                  stroke-width="2"
+                  stroke-dasharray="3,3"
+                  opacity="0.5"/>
           </g>
 
           <!-- Abyss connection -->
