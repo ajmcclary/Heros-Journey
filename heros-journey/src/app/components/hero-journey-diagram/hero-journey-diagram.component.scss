@@ -245,6 +245,14 @@
 
 // SVG styling
 .world-label {
+  font-size: 12px;
+  font-weight: bold;
+  fill: #7788AA;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.phase-label {
   font-size: 14px;
   font-weight: bold;
   fill: #5577AA;
