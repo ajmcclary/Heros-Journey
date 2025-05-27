@@ -129,13 +129,39 @@
     font-weight: 500;
 
     &.known {
-      background-color: rgba($known-world-color, 0.2);
-      color: darken($known-world-color, 20%);
+      background-color: rgba(#E8F2FF, 0.9);
+      color: #2B5CE6;
+      border: 1px solid rgba(#2B5CE6, 0.2);
     }
 
     &.unknown {
-      background-color: rgba($unknown-world-color, 0.2);
-      color: darken($unknown-world-color, 20%);
+      background-color: rgba(#E8F5E9, 0.9);
+      color: #2E7D32;
+      border: 1px solid rgba(#2E7D32, 0.2);
+    }
+  }
+
+  .phase-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: $spacing-xs $spacing-md;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-small;
+    font-weight: 500;
+
+    &.departure {
+      background-color: rgba(#CFE7F5, 0.5);
+      color: darken(#70B7E2, 25%);
+    }
+
+    &.initiation {
+      background-color: rgba(#00CD92, 0.2);
+      color: darken(#00CD92, 20%);
+    }
+
+    &.return {
+      background-color: rgba(#FF9A15, 0.2);
+      color: darken(#FF9A15, 20%);
     }
   }
 

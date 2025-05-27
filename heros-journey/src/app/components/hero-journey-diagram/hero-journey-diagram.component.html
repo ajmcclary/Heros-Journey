@@ -237,6 +237,13 @@
                 [class.unknown]="selectedStage.worldType === 'unknown'">
             {{selectedStage.worldType === 'known' ? 'Known World' : 'Unknown World'}}
           </span>
+          <span class="phase-tag" [class.departure]="selectedStage.id >= 1 && selectedStage.id <= 5"
+                [class.initiation]="selectedStage.id >= 6 && selectedStage.id <= 9"
+                [class.return]="selectedStage.id >= 10 && selectedStage.id <= 12">
+            <ng-container *ngIf="selectedStage.id >= 1 && selectedStage.id <= 5">Departure</ng-container>
+            <ng-container *ngIf="selectedStage.id >= 6 && selectedStage.id <= 9">Initiation</ng-container>
+            <ng-container *ngIf="selectedStage.id >= 10 && selectedStage.id <= 12">Return</ng-container>
+          </span>
           <span *ngIf="selectedStage.isThreshold" class="special-marker threshold">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
               <path d="M8 0l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z"/>
