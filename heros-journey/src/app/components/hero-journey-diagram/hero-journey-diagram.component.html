@@ -120,9 +120,9 @@
               [attr.x2]="getStageX(stages[7])" 
               [attr.y2]="getStageY(stages[7])"
               stroke="#D83506"
-              stroke-width="2"
-              stroke-dasharray="3,3"
-              opacity="0.5"/>
+              stroke-width="3"
+              stroke-dasharray="5,5"
+              opacity="0.7"/>
       </g>
 
       <!-- Stage segments and interactivity -->
@@ -143,8 +143,17 @@
           <circle [attr.cx]="getStageX(stage)" 
                   [attr.cy]="getStageY(stage)" 
                   r="20"
-                  [attr.fill]="stage.worldType === 'known' ? '#70B7E2' : '#00CD92'"
-                  [attr.stroke]="stage.isThreshold ? '#FF9A15' : (stage.isAbyss ? '#D83506' : '#009AD7')"
+                  [attr.fill]="selectedStage && stage.id < selectedStage.id ? 
+                               (stage.isThreshold ? '#FF9A15' : 
+                                (stage.isAbyss ? '#D83506' : 
+                                 (stage.id >= 6 && stage.id <= 9 ? '#00A070' : 
+                                  (stage.id >= 10 && stage.id <= 12 ? '#E67E00' : '#009AD7')))) : 
+                               (stage.id >= 10 && stage.id <= 12 ? '#FFB366' : 
+                                (stage.worldType === 'known' ? '#70B7E2' : '#00CD92'))"
+                  [attr.stroke]="stage.isThreshold ? '#FF9A15' : 
+                                 (stage.isAbyss ? '#D83506' : 
+                                  (stage.id >= 6 && stage.id <= 9 ? '#00A070' : 
+                                   (stage.id >= 10 && stage.id <= 12 ? '#E67E00' : '#009AD7')))"
                   [attr.stroke-width]="stage.isThreshold || stage.isAbyss ? '4' : '2'"
                   class="stage-circle"/>
           
@@ -182,8 +191,11 @@
         <line x1="440" y1="10" x2="470" y2="10" stroke="#FF9A15" stroke-width="4"/>
         <text x="480" y="15" class="legend-text">Threshold</text>
         
-        <circle cx="600" cy="10" r="10" fill="#D83506" opacity="0.3"/>
-        <text x="620" y="15" class="legend-text">Abyss/Ordeal</text>
+        <line x1="580" y1="10" x2="610" y2="10" stroke="#D83506" stroke-width="3" stroke-dasharray="5,5"/>
+        <text x="620" y="15" class="legend-text">Ordeal</text>
+        
+        <circle cx="720" cy="10" r="10" fill="#D83506" opacity="0.3"/>
+        <text x="740" y="15" class="legend-text">Abyss</text>
       </g>
     </svg>
 

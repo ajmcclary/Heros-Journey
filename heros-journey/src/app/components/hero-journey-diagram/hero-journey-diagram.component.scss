@@ -10,25 +10,35 @@
 
 .hero-journey-header {
   display: flex;
-  align-items: flex-start;
-  gap: $spacing-lg;
-  padding: $spacing-md;
+  align-items: stretch;
+  gap: 0;
   flex-shrink: 0;
+  border-bottom: 2px solid rgba($main-primary, 0.2);
+  background-color: rgba($main-primary, 0.08);
 
   h1 {
     margin: 0;
+    padding: $spacing-md $spacing-lg;
     flex-shrink: 0;
     white-space: nowrap;
     font-size: 1.5rem;
+    background-color: rgba($known-world-color, 0.1);
+    border-right: 1px solid rgba($main-muted, 0.2);
+    display: flex;
+    align-items: center;
   }
 
   .intro {
     flex: 1;
     margin: 0;
+    padding: $spacing-md $spacing-lg;
     font-size: $font-size-base;
     line-height: 1.5;
     color: $main-dark;
     text-align: left;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -45,7 +55,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-width: 0;
 }
 
@@ -368,21 +378,24 @@
   }
 
   &.selected {
+    position: relative;
+    
     .stage-circle {
       stroke-width: 6 !important;
       stroke: $main-primary !important;
-      filter: drop-shadow(0 0 8px rgba($main-primary, 0.4));
-      animation: pulse 2s ease-in-out infinite;
+      filter: drop-shadow(0 0 12px rgba($main-primary, 0.5));
+      stroke-dasharray: 4 2;
+      animation: rotate-border 8s linear infinite;
     }
 
     .stage-number {
-      font-size: 16px;
+      font-size: 18px;
     }
 
     .stage-label {
       font-weight: bold;
       fill: $main-primary;
-      font-size: 14px;
+      font-size: 20px;
     }
   }
 
@@ -404,7 +417,7 @@
 }
 
 .stage-label {
-  font-size: 14px;
+  font-size: 16px;
   fill: $main-dark;
   transition: all 0.3s ease;
   pointer-events: none;
@@ -457,6 +470,27 @@
   }
 }
 
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba($main-primary, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba($main-primary, 0.6), 0 0 30px rgba($main-primary, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba($main-primary, 0.4);
+  }
+}
+
+@keyframes rotate-border {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 126; // Circumference of a circle with radius 20
+  }
+}
+
 // Responsive design
 @media (max-width: $breakpoint-desktop) {
   .hero-journey-header {
@@ -480,11 +514,12 @@
 @media (max-width: $breakpoint-tablet) {
   .hero-journey-header {
     flex-direction: column;
-    gap: $spacing-md;
-    padding: $spacing-md;
+    gap: 0;
 
     h1 {
       font-size: 1.75rem;
+      border-right: none;
+      border-bottom: 1px solid rgba($main-muted, 0.2);
     }
 
     .intro {
@@ -504,15 +539,15 @@
 
 @media (max-width: $breakpoint-mobile) {
   .hero-journey-header {
-    padding: $spacing-sm;
-
     h1 {
       font-size: 1.5rem;
+      padding: $spacing-sm $spacing-md;
     }
 
     .intro {
       font-size: $font-size-small;
       line-height: 1.4;
+      padding: $spacing-sm $spacing-md;
     }
   }
 
