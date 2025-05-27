@@ -90,8 +90,8 @@
       <path [attr.d]="getProgressPathData()" 
             class="progress-path"
             fill="none"
-            stroke="#FF9A15"
-            stroke-width="4"
+            stroke="#1A4A8A"
+            stroke-width="6"
             stroke-linecap="round"/>
 
       <!-- Direction arrows -->
@@ -190,19 +190,10 @@
       </g>
     </svg>
 
-      <!-- Instruction hint -->
-      <p class="instruction-hint" *ngIf="!selectedStage">
-        <strong>Tip:</strong> Click on each stage of the circle to learn about that part of the Hero's Journey.
-      </p>
     </div>
 
     <!-- Side panel for stage details -->
     <div class="detail-panel" [class.active]="selectedStage">
-      <div class="panel-header" *ngIf="!selectedStage">
-        <h2>Select a Stage</h2>
-        <p>Click on any numbered stage in the diagram to explore its meaning in the Hero's Journey.</p>
-      </div>
-
       <div class="stage-detail-content" *ngIf="selectedStage">
         <div class="navigation-controls">
           <button class="nav-button prev" (click)="navigateStage('prev')" 
@@ -266,6 +257,20 @@
 
         <div class="stage-description">
           <p>{{selectedStage.description}}</p>
+        </div>
+
+        <!-- Divider -->
+        <div class="section-divider"></div>
+
+        <!-- Story Topics Section -->
+        <div class="story-topics-section">
+          <ul class="topics-list">
+            <li *ngFor="let topic of getStageTopics(selectedStage.id)">
+              <strong>{{ formatTopicText(topic).label }}</strong>
+              <span *ngIf="formatTopicText(topic).label"> — </span>
+              {{ formatTopicText(topic).description }}
+            </li>
+          </ul>
         </div>
       </div>
     </div>

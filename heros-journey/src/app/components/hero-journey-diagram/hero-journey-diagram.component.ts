@@ -28,6 +28,11 @@ export class HeroJourneyDiagramComponent implements OnInit {
 
   ngOnInit(): void {
     this.stages = this.heroJourneyService.getStages();
+    // Set Stage 1 as default selected stage
+    if (this.stages.length > 0) {
+      this.selectedStage = this.stages[0];
+      this.currentStageIndex = 0;
+    }
   }
 
   onStageClick(stage: HeroStage): void {
@@ -144,5 +149,73 @@ export class HeroJourneyDiagramComponent implements OnInit {
 
   getStageGroups() {
     return this.heroJourneyService.getStageGroups();
+  }
+
+  formatTopicText(topic: string): { label: string; description: string } {
+    const parts = topic.split(' — ');
+    if (parts.length >= 2) {
+      return {
+        label: parts[0],
+        description: parts.slice(1).join(' — ')
+      };
+    }
+    return {
+      label: '',
+      description: topic
+    };
+  }
+
+  getStageTopics(stageId: number): string[] {
+    const topicsMap: { [key: number]: string[] } = {
+      1: [
+        'Pain Point / Problem — Concise phrase summarizing the core issue faced by BLA Claims Examiners.',
+        'Experience — How examiners encounter or feel the pain point in day-to-day work (observable symptoms).',
+        'Frequency — How often the problem surfaces (e.g., daily, weekly, per claim).',
+        'Duration — Typical length of each occurrence or the period the issue persists (momentary vs. chronic).',
+        'Time wasted — Estimated time lost per occurrence or within a typical work period due to the problem.',
+        'Not their fault — Factors showing the issue stems from systemic, technological, or policy constraints beyond individual examiners\' control.'
+      ],
+      2: [
+        'Why likely? — Primary reasons this issue exists in their environment — root-cause context.',
+        'Other impacts — Secondary or collateral consequences (health, morale, quality, compliance, etc.).',
+        'Keeps them up — Specific anxieties or fears the issue provokes — what they worry about after hours.'
+      ],
+      3: [
+        'Feelings — Emotional responses the pain point elicits in examiners (frustration, anxiety, cynicism, etc.).',
+        'Mistakes — Common errors examiners make while struggling with this pain point.',
+        'Why — Underlying reasons those mistakes happen (cognitive load, tool gaps, policies, etc.).'
+      ],
+      4: [
+        'Past fixes — Temporary work-arounds or prior attempts to mitigate the issue.',
+        'Why them — Explanation of why this pain point affects BLA but not organizations with more modern tools or processes.'
+      ],
+      5: [
+        'Ignored — Aspects or solutions stakeholders avoid confronting because they\'re stressful, costly, or complex.',
+        'Cost — Tangible or intangible losses resulting from the mistakes or issue (money, reputation, risk).'
+      ],
+      6: [
+        'Others\' reaction — How supervisors, claimants, external counsel, or auditors perceive or respond to the visible effects of the problem.'
+      ],
+      7: [
+        'Worst-case — Most severe potential outcome if the issue remains unaddressed.'
+      ],
+      8: [
+        '(Re-emphasise Worst-case here when dramatizing the crunch moment.)'
+      ],
+      9: [
+        'After fix — Expected positive state once the pain point is resolved (benefits & improvements).'
+      ],
+      10: [
+        'Other impacts (positive side) — How collateral areas start improving once the fix rolls out (quality, morale, compliance).'
+      ],
+      11: [
+        'Mistakes / Cost (averted) — Show how the previous errors and penalties no longer occur, confirming lasting change.'
+      ],
+      12: [
+        'Life after — Vision of the work environment and outcomes once the pain point has been fully resolved.'
+      ]
+    };
+    
+    return topicsMap[stageId] || [];
   }
 }
