@@ -224,6 +224,17 @@
   &:active {
     transform: translateY(0);
   }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: $main-muted;
+    
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
 }
 
 .stage-counter {
@@ -236,7 +247,7 @@
 .world-label {
   font-size: 14px;
   font-weight: bold;
-  fill: $main-muted;
+  fill: #5577AA;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -270,10 +281,15 @@
 
   &:focus {
     outline: none;
-    
+  }
+
+  &:focus-visible {
     .stage-circle {
       stroke-width: 4;
+      stroke: $main-primary;
       filter: drop-shadow(0 0 8px rgba($main-primary, 0.6));
+      outline: 2px solid $main-primary;
+      outline-offset: 2px;
     }
   }
 
@@ -305,6 +321,11 @@
   transition: all 0.3s ease;
   pointer-events: none;
   font-weight: 500;
+}
+
+.progress-path {
+  transition: all 0.5s ease;
+  filter: drop-shadow(0 0 4px rgba($threshold-color, 0.4));
 }
 
 .legend {

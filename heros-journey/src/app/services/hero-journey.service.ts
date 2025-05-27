@@ -32,7 +32,7 @@ export class HeroJourneyService {
       name: 'Meeting the Mentor',
       description: 'The hero encounters a mentor figure who provides guidance, wisdom, or tools that will help on the adventure.',
       worldType: 'known',
-      angle: 90
+      angle: 75
     },
     {
       id: 5,

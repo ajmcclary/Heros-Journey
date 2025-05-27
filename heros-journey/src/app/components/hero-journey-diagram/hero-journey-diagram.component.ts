@@ -40,12 +40,13 @@ export class HeroJourneyDiagramComponent implements OnInit {
   }
 
   navigateStage(direction: 'prev' | 'next'): void {
-    if (direction === 'prev') {
-      this.currentStageIndex = this.currentStageIndex > 0 ? this.currentStageIndex - 1 : this.stages.length - 1;
-    } else {
-      this.currentStageIndex = (this.currentStageIndex + 1) % this.stages.length;
+    if (direction === 'prev' && this.currentStageIndex > 0) {
+      this.currentStageIndex = this.currentStageIndex - 1;
+      this.selectedStage = this.stages[this.currentStageIndex];
+    } else if (direction === 'next' && this.currentStageIndex < this.stages.length - 1) {
+      this.currentStageIndex = this.currentStageIndex + 1;
+      this.selectedStage = this.stages[this.currentStageIndex];
     }
-    this.selectedStage = this.stages[this.currentStageIndex];
   }
 
   // Helper methods for SVG positioning
@@ -83,6 +84,21 @@ export class HeroJourneyDiagramComponent implements OnInit {
       return `${x},${y}`;
     });
     return `M ${points.join(' L ')} Z`;
+  }
+
+  getProgressPathData(): string {
+    if (!this.selectedStage) return '';
+    
+    const stageIndex = this.selectedStage.id;
+    const points = this.stages.slice(0, stageIndex).map(stage => {
+      const angleRad = (stage.angle - 90) * Math.PI / 180;
+      const x = this.centerX + Math.cos(angleRad) * this.innerRadius;
+      const y = this.centerY + Math.sin(angleRad) * this.innerRadius;
+      return `${x},${y}`;
+    });
+    
+    if (points.length === 0) return '';
+    return `M ${points.join(' L ')}`;
   }
 
   getArcPath(startAngle: number, endAngle: number, radius: number): string {

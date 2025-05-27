@@ -12,32 +12,31 @@
     <svg [attr.viewBox]="'0 0 ' + svgWidth + ' ' + svgHeight" 
          class="hero-journey-svg"
          role="img"
-         aria-label="Interactive Hero's Journey circular diagram">
+         aria-labelledby="hj-title hj-desc">
+      
+      <title id="hj-title">The Hero's Journey Interactive Diagram</title>
+      <desc id="hj-desc">A circular diagram showing the 12 stages of the Hero's Journey, divided between the Known World and Unknown World. Click on any stage to learn more.</desc>
       
       <!-- Background sections for Known/Unknown worlds -->
       <g class="world-sections">
-        <!-- Known World (stages 1-5, 11-12) -->
-        <path [attr.d]="getArcPath(0, 150, outerRadius)" 
-              class="known-world-section"
-              [attr.fill]="'#CFE7F5'"
-              opacity="0.3"/>
-        <path [attr.d]="getArcPath(270, 360, outerRadius)" 
+        <!-- Known World (right half) -->
+        <path [attr.d]="getArcPath(270, 450, outerRadius)" 
               class="known-world-section"
               [attr.fill]="'#CFE7F5'"
               opacity="0.3"/>
         
-        <!-- Unknown World (stages 6-10) -->
-        <path [attr.d]="getArcPath(150, 270, outerRadius)" 
+        <!-- Unknown World (left half) -->
+        <path [attr.d]="getArcPath(90, 270, outerRadius)" 
               class="unknown-world-section"
               [attr.fill]="'#00CD92'"
               opacity="0.2"/>
       </g>
 
       <!-- World Labels -->
-      <text x="200" y="200" class="world-label" text-anchor="middle">
+      <text x="550" y="400" class="world-label" text-anchor="middle">
         KNOWN WORLD
       </text>
-      <text x="600" y="400" class="world-label" text-anchor="middle">
+      <text x="250" y="400" class="world-label" text-anchor="middle">
         UNKNOWN WORLD
       </text>
 
@@ -70,6 +69,14 @@
             stroke="#009AD7"
             stroke-width="3"
             stroke-dasharray="5,5"/>
+      
+      <!-- Progress Path (animated) -->
+      <path [attr.d]="getProgressPathData()" 
+            class="progress-path"
+            fill="none"
+            stroke="#FF9A15"
+            stroke-width="4"
+            stroke-linecap="round"/>
 
       <!-- Direction arrows -->
       <defs>
@@ -216,7 +223,8 @@
 
         <div class="navigation-controls">
           <button class="nav-button prev" (click)="navigateStage('prev')" 
-                  [attr.aria-label]="'Previous stage'">
+                  [attr.aria-label]="'Previous stage'"
+                  [disabled]="currentStageIndex === 0">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
               <path d="M12 15l-5-5 5-5"/>
             </svg>
@@ -224,7 +232,8 @@
           </button>
           
           <button class="nav-button next" (click)="navigateStage('next')" 
-                  [attr.aria-label]="'Next stage'">
+                  [attr.aria-label]="'Next stage'"
+                  [disabled]="currentStageIndex === stages.length - 1">
             Next
             <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
               <path d="M8 5l5 5-5 5"/>
