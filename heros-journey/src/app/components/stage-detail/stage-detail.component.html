@@ -1,0 +1,71 @@
+<div class="stage-detail-overlay" (click)="onOverlayClick($event)">
+  <div class="stage-detail-modal" role="dialog" aria-modal="true" [attr.aria-labelledby]="'stage-title-' + stage.id">
+    <button class="close-button" (click)="onClose()" aria-label="Close modal">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <div class="stage-detail-content">
+      <div class="stage-header">
+        <div class="stage-number-badge" [class.known-world]="stage.worldType === 'known'" 
+             [class.unknown-world]="stage.worldType === 'unknown'">
+          {{stage.id}}
+        </div>
+        <h2 [id]="'stage-title-' + stage.id">{{stage.name}}</h2>
+      </div>
+
+      <div class="stage-metadata">
+        <span class="world-type" [class.known]="stage.worldType === 'known'" 
+              [class.unknown]="stage.worldType === 'unknown'">
+          {{stage.worldType === 'known' ? 'Known World' : 'Unknown World'}}
+        </span>
+        <span *ngIf="stage.isThreshold" class="special-marker threshold">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z"/>
+          </svg>
+          Threshold
+        </span>
+        <span *ngIf="stage.isAbyss" class="special-marker abyss">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <circle cx="8" cy="8" r="8"/>
+          </svg>
+          Central Crisis
+        </span>
+        <span *ngIf="stage.isReturnPath" class="special-marker return">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M1 8h10m-5-5l5 5-5 5"/>
+          </svg>
+          Return Journey
+        </span>
+      </div>
+
+      <div class="stage-description">
+        <p>{{stage.description}}</p>
+      </div>
+
+      <div class="navigation-controls">
+        <button class="nav-button prev" (click)="onNavigate('prev')" 
+                [attr.aria-label]="'Previous stage'">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M12 15l-5-5 5-5"/>
+          </svg>
+          Previous
+        </button>
+        
+        <span class="stage-counter">
+          {{stageNumber}} of {{totalStages}}
+        </span>
+        
+        <button class="nav-button next" (click)="onNavigate('next')" 
+                [attr.aria-label]="'Next stage'">
+          Next
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M8 5l5 5-5 5"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

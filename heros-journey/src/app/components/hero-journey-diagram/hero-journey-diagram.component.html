@@ -1,0 +1,191 @@
+<div class="hero-journey-container">
+  <div class="hero-journey-header">
+    <h1>The Hero's Journey</h1>
+    <p class="intro">
+      The Hero's Journey is a common story structure where a hero ventures out from the familiar world, 
+      faces challenges and transformation, and returns home changed. Click on any stage to explore.
+    </p>
+  </div>
+
+  <div class="diagram-wrapper">
+    <svg [attr.viewBox]="'0 0 ' + svgWidth + ' ' + svgHeight" 
+         class="hero-journey-svg"
+         role="img"
+         aria-label="Interactive Hero's Journey circular diagram">
+      
+      <!-- Background sections for Known/Unknown worlds -->
+      <g class="world-sections">
+        <!-- Known World (stages 1-5, 11-12) -->
+        <path [attr.d]="getArcPath(0, 150, outerRadius)" 
+              class="known-world-section"
+              [attr.fill]="'#CFE7F5'"
+              opacity="0.3"/>
+        <path [attr.d]="getArcPath(270, 360, outerRadius)" 
+              class="known-world-section"
+              [attr.fill]="'#CFE7F5'"
+              opacity="0.3"/>
+        
+        <!-- Unknown World (stages 6-10) -->
+        <path [attr.d]="getArcPath(150, 270, outerRadius)" 
+              class="unknown-world-section"
+              [attr.fill]="'#00CD92'"
+              opacity="0.2"/>
+      </g>
+
+      <!-- World Labels -->
+      <text x="200" y="200" class="world-label" text-anchor="middle">
+        KNOWN WORLD
+      </text>
+      <text x="600" y="400" class="world-label" text-anchor="middle">
+        UNKNOWN WORLD
+      </text>
+
+      <!-- Central Abyss/Ordeal -->
+      <g class="abyss-center">
+        <circle [attr.cx]="centerX" 
+                [attr.cy]="centerY" 
+                [attr.r]="abyssRadius"
+                class="abyss-circle"
+                [attr.fill]="'#D83506'"
+                opacity="0.15"/>
+        <text [attr.x]="centerX" 
+              [attr.y]="centerY - 20" 
+              text-anchor="middle" 
+              class="abyss-label">
+          ABYSS
+        </text>
+        <text [attr.x]="centerX" 
+              [attr.y]="centerY + 5" 
+              text-anchor="middle" 
+              class="abyss-sublabel">
+          Crisis & Rebirth
+        </text>
+      </g>
+
+      <!-- Journey Path -->
+      <path [attr.d]="getPathData()" 
+            class="journey-path"
+            fill="none"
+            stroke="#009AD7"
+            stroke-width="3"
+            stroke-dasharray="5,5"/>
+
+      <!-- Direction arrows -->
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#009AD7" />
+        </marker>
+      </defs>
+
+      <!-- Stage segments and interactivity -->
+      <g class="stages">
+        <g *ngFor="let stage of stages" 
+           class="stage-group"
+           [class.selected]="selectedStage?.id === stage.id"
+           [class.threshold]="stage.isThreshold"
+           [class.return-path]="stage.isReturnPath"
+           (click)="onStageClick(stage)"
+           [attr.tabindex]="0"
+           (keyup.enter)="onStageClick(stage)"
+           (keyup.space)="onStageClick(stage)"
+           role="button"
+           [attr.aria-label]="'Stage ' + stage.id + ': ' + stage.name">
+          
+          <!-- Stage circle -->
+          <circle [attr.cx]="getStageX(stage)" 
+                  [attr.cy]="getStageY(stage)" 
+                  r="20"
+                  [attr.fill]="stage.worldType === 'known' ? '#70B7E2' : '#00CD92'"
+                  [attr.stroke]="stage.isThreshold ? '#FF9A15' : (stage.isAbyss ? '#D83506' : '#009AD7')"
+                  [attr.stroke-width]="stage.isThreshold || stage.isAbyss ? '4' : '2'"
+                  class="stage-circle"/>
+          
+          <!-- Stage number -->
+          <text [attr.x]="getStageX(stage)" 
+                [attr.y]="getStageY(stage) + 5" 
+                text-anchor="middle"
+                class="stage-number"
+                fill="white"
+                font-weight="bold">
+            {{stage.id}}
+          </text>
+          
+          <!-- Stage label -->
+          <text [attr.x]="getLabelX(stage)" 
+                [attr.y]="getLabelY(stage)" 
+                [attr.text-anchor]="getTextAnchor(stage)"
+                class="stage-label"
+                [attr.transform]="stage.angle > 90 && stage.angle < 270 ? 
+                  'rotate(180 ' + getLabelX(stage) + ' ' + getLabelY(stage) + ')' : ''">
+            {{stage.name}}
+          </text>
+
+          <!-- Threshold marker -->
+          <g *ngIf="stage.isThreshold">
+            <line [attr.x1]="getStageX(stage) - 30" 
+                  [attr.y1]="getStageY(stage)" 
+                  [attr.x2]="getStageX(stage) + 30" 
+                  [attr.y2]="getStageY(stage)"
+                  stroke="#FF9A15"
+                  stroke-width="4"
+                  class="threshold-line"/>
+          </g>
+
+          <!-- Abyss connection -->
+          <g *ngIf="stage.isAbyss">
+            <line [attr.x1]="centerX" 
+                  [attr.y1]="centerY" 
+                  [attr.x2]="getStageX(stage)" 
+                  [attr.y2]="getStageY(stage)"
+                  stroke="#D83506"
+                  stroke-width="2"
+                  stroke-dasharray="3,3"
+                  opacity="0.5"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- Legend -->
+      <g class="legend" transform="translate(20, 680)">
+        <text x="0" y="0" class="legend-title">Legend:</text>
+        
+        <circle cx="20" cy="20" r="10" fill="#70B7E2"/>
+        <text x="40" y="25" class="legend-text">Known World</text>
+        
+        <circle cx="150" cy="20" r="10" fill="#00CD92"/>
+        <text x="170" y="25" class="legend-text">Unknown World</text>
+        
+        <line x1="280" y1="20" x2="310" y2="20" stroke="#FF9A15" stroke-width="4"/>
+        <text x="320" y="25" class="legend-text">Threshold</text>
+        
+        <circle cx="440" cy="20" r="10" fill="#D83506" opacity="0.3"/>
+        <text x="460" y="25" class="legend-text">Abyss/Ordeal</text>
+      </g>
+    </svg>
+
+    <!-- Instruction hint -->
+    <p class="instruction-hint" *ngIf="!selectedStage">
+      <strong>Tip:</strong> Click on each stage of the circle to learn about that part of the Hero's Journey.
+    </p>
+  </div>
+
+  <!-- Stage groups overview -->
+  <div class="stage-groups">
+    <div *ngFor="let group of getStageGroups()" class="stage-group-card">
+      <h3>{{group.name}}</h3>
+      <p>{{group.description}}</p>
+      <p class="stages-list">Stages {{group.stages[0]}}-{{group.stages[group.stages.length - 1]}}</p>
+    </div>
+  </div>
+
+  <!-- Stage detail modal -->
+  <app-stage-detail 
+    *ngIf="selectedStage"
+    [stage]="selectedStage"
+    [stageNumber]="currentStageIndex + 1"
+    [totalStages]="stages.length"
+    (close)="onCloseDetail()"
+    (navigate)="navigateStage($event)">
+  </app-stage-detail>
+</div>

@@ -1,0 +1,263 @@
+@import '../../../styles/variables';
+
+.stage-detail-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($main-dark, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: $spacing-lg;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.stage-detail-modal {
+  background: white;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-lg;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.close-button {
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  background: none;
+  border: none;
+  color: $main-muted;
+  cursor: pointer;
+  padding: $spacing-sm;
+  border-radius: $border-radius-sm;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: rgba($main-dark, 0.05);
+    color: $main-dark;
+  }
+
+  &:focus {
+    outline: 2px solid $main-primary;
+    outline-offset: 2px;
+  }
+}
+
+.stage-detail-content {
+  padding: $spacing-xl;
+}
+
+.stage-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-lg;
+}
+
+.stage-number-badge {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  flex-shrink: 0;
+
+  &.known-world {
+    background-color: $known-world-color;
+  }
+
+  &.unknown-world {
+    background-color: $unknown-world-color;
+  }
+}
+
+h2 {
+  margin: 0;
+  color: $main-dark;
+  flex: 1;
+}
+
+.stage-metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+}
+
+.world-type {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-small;
+  font-weight: 500;
+
+  &.known {
+    background-color: rgba($known-world-color, 0.2);
+    color: darken($known-world-color, 20%);
+  }
+
+  &.unknown {
+    background-color: rgba($unknown-world-color, 0.2);
+    color: darken($unknown-world-color, 20%);
+  }
+}
+
+.special-marker {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-small;
+  font-weight: 500;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &.threshold {
+    background-color: rgba($threshold-color, 0.2);
+    color: darken($threshold-color, 20%);
+  }
+
+  &.abyss {
+    background-color: rgba($abyss-color, 0.2);
+    color: darken($abyss-color, 10%);
+  }
+
+  &.return {
+    background-color: rgba($return-path-color, 0.2);
+    color: darken($return-path-color, 20%);
+  }
+}
+
+.stage-description {
+  margin-bottom: $spacing-xl;
+
+  p {
+    font-size: $font-size-large;
+    line-height: 1.8;
+    color: $main-dark;
+    margin: 0;
+  }
+}
+
+.navigation-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  padding-top: $spacing-lg;
+  border-top: 1px solid rgba($main-muted, 0.2);
+}
+
+.nav-button {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-lg;
+  background-color: $main-primary;
+  color: white;
+  border: none;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    background-color: $shades-primary-1;
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+
+  &:focus {
+    outline: 2px solid $main-primary;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.stage-counter {
+  font-size: $font-size-small;
+  color: $main-muted;
+  font-weight: 500;
+}
+
+// Responsive
+@media (max-width: $breakpoint-mobile) {
+  .stage-detail-overlay {
+    padding: $spacing-md;
+  }
+
+  .stage-detail-modal {
+    max-height: 100vh;
+    height: 100%;
+  }
+
+  .stage-detail-content {
+    padding: $spacing-lg;
+  }
+
+  .stage-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .stage-metadata {
+    justify-content: center;
+  }
+
+  .navigation-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .stage-counter {
+      width: 100%;
+      text-align: center;
+      order: -1;
+      margin-bottom: $spacing-sm;
+    }
+  }
+}

@@ -1,0 +1,215 @@
+@import '../../../styles/variables';
+
+.hero-journey-container {
+  min-height: 100vh;
+  padding: $spacing-lg;
+  background-color: $main-light;
+}
+
+.hero-journey-header {
+  text-align: center;
+  margin-bottom: $spacing-xl;
+
+  h1 {
+    margin-bottom: $spacing-md;
+  }
+
+  .intro {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: $font-size-large;
+    line-height: 1.6;
+    color: $main-dark;
+  }
+}
+
+.diagram-wrapper {
+  max-width: 1000px;
+  margin: 0 auto $spacing-xl;
+  position: relative;
+}
+
+.hero-journey-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  background: white;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-lg;
+}
+
+// SVG styling
+.world-label {
+  font-size: 14px;
+  font-weight: bold;
+  fill: $main-muted;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.abyss-label {
+  font-size: 20px;
+  font-weight: bold;
+  fill: $abyss-color;
+}
+
+.abyss-sublabel {
+  font-size: 14px;
+  fill: $main-dark;
+}
+
+.stage-group {
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    .stage-circle {
+      transform-origin: center;
+      filter: brightness(1.1);
+    }
+
+    .stage-label {
+      font-weight: bold;
+    }
+  }
+
+  &:focus {
+    outline: none;
+    
+    .stage-circle {
+      stroke-width: 4;
+      filter: drop-shadow(0 0 8px rgba($main-primary, 0.6));
+    }
+  }
+
+  &.selected {
+    .stage-circle {
+      transform-origin: center;
+      filter: brightness(1.2) drop-shadow(0 0 12px rgba($main-primary, 0.8));
+    }
+
+    .stage-label {
+      font-weight: bold;
+      fill: $main-primary;
+    }
+  }
+}
+
+.stage-circle {
+  transition: all 0.3s ease;
+}
+
+.stage-number {
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.stage-label {
+  font-size: 14px;
+  fill: $main-dark;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.legend {
+  .legend-title {
+    font-size: 14px;
+    font-weight: bold;
+    fill: $main-dark;
+  }
+
+  .legend-text {
+    font-size: 12px;
+    fill: $main-muted;
+  }
+}
+
+.instruction-hint {
+  text-align: center;
+  margin-top: $spacing-lg;
+  font-size: $font-size-small;
+  color: $main-muted;
+  
+  strong {
+    color: $main-primary;
+  }
+}
+
+// Stage groups cards
+.stage-groups {
+  display: flex;
+  gap: $spacing-lg;
+  max-width: 1000px;
+  margin: 0 auto $spacing-xl;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stage-group-card {
+  flex: 1;
+  min-width: 250px;
+  background: white;
+  padding: $spacing-lg;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-md;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+  }
+
+  h3 {
+    margin-bottom: $spacing-sm;
+    color: $main-primary;
+  }
+
+  p {
+    margin-bottom: $spacing-sm;
+  }
+
+  .stages-list {
+    font-size: $font-size-small;
+    color: $main-muted;
+    font-weight: bold;
+  }
+}
+
+// Responsive design
+@media (max-width: $breakpoint-tablet) {
+  .hero-journey-container {
+    padding: $spacing-md;
+  }
+
+  .diagram-wrapper {
+    overflow-x: auto;
+  }
+
+  .stage-groups {
+    flex-direction: column;
+  }
+
+  .stage-group-card {
+    min-width: auto;
+  }
+
+  .world-label {
+    font-size: 12px;
+  }
+
+  .stage-label {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .hero-journey-svg {
+    min-width: 600px;
+  }
+
+  .instruction-hint {
+    padding: 0 $spacing-md;
+  }
+}
